@@ -1,33 +1,69 @@
 ---
 title: 'Introduction'
-description: 'Example section for showcasing API endpoints'
+description: 'PDF Extractor API documentation'
 ---
-
-<Note>
-  If you're not looking to build API reference documentation, you can delete
-  this section by removing the api-reference folder.
-</Note>
 
 ## Welcome
 
-There are two ways to build API documentation: [OpenAPI](https://mintlify.com/docs/api-playground/openapi/setup) and [MDX components](https://mintlify.com/docs/api-playground/mdx/configuration). For the starter kit, we are using the following OpenAPI specification.
+The PDF Extractor API provides endpoints for parsing PDFs and images, asking questions about documents, and extracting structured data using AI-powered processing.
 
-<Card
-  title="Plant Store Endpoints"
-  icon="leaf"
-  href="https://github.com/mintlify/starter/blob/main/api-reference/openapi.json"
->
-  View the OpenAPI specification file
-</Card>
+## Base URL
+
+All API endpoints are prefixed with `/api/v1`:
+
+```
+https://your-api-domain.com/api/v1
+```
 
 ## Authentication
 
-All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
+All API endpoints require authentication using a Bearer token in the Authorization header. Your API key must start with `pk_live_`.
 
-```json
-"security": [
-  {
-    "bearerAuth": []
-  }
-]
+<Warning>
+  Keep your API key secure and never expose it in client-side code or public repositories.
+</Warning>
+
+### Authentication Header
+
+Include your API key in the Authorization header:
+
+```bash
+Authorization: Bearer pk_live_your_api_key_here
 ```
+
+## Rate Limiting
+
+API requests are subject to rate limiting based on your subscription plan. Rate limit headers are included in responses.
+
+## Idempotency
+
+All endpoints support idempotency keys via the `Idempotency-Key` header. When provided, duplicate requests with the same key will return the cached response without charging credits again.
+
+```bash
+Idempotency-Key: your-unique-key-here
+```
+
+## Credits
+
+All API operations consume credits based on:
+- File size and type
+- Operation complexity
+- Number of files processed
+
+Credits are deducted from your active subscription bucket. Ensure you have sufficient credits before making requests.
+
+## Supported File Types
+
+- **PDFs**: `application/pdf`
+- **Images**: `image/jpeg`, `image/jpg`, `image/png`, `image/gif`, `image/webp`
+
+## Error Responses
+
+All endpoints return standard HTTP status codes:
+
+- `200` - Success
+- `400` - Bad Request (invalid parameters)
+- `401` - Unauthorized (invalid or missing API key)
+- `402` - Payment Required (insufficient credits)
+- `403` - Forbidden (no active subscription)
+- `500` - Internal Server Error

@@ -57,12 +57,11 @@
             ]
           },
           {
-            "group": "Endpoint examples",
+            "group": "API Endpoints",
             "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
+              "api-reference/endpoint/ask",
+              "api-reference/endpoint/parse",
+              "api-reference/endpoint/extract"
             ]
           }
         ]

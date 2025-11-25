@@ -1,0 +1,166 @@
+---
+title: 'Parse Documents'
+api: 'POST /api/v1/parse'
+---
+
+Parse and extract text content from uploaded PDFs and images using OCR (Optical Character Recognition). This endpoint extracts all visible text from documents and returns structured text data.
+
+## Request
+
+<ParamField body="files" type="File[]" required>
+  Array of files to parse. Supports PDFs and images (JPEG, PNG, GIF, WebP).
+</ParamField>
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token with your API key. Format: `Bearer pk_live_your_api_key`
+</ParamField>
+
+## Request Example
+
+<CodeGroup>
+
+```bash cURL
+curl -X POST "https://your-api-domain.com/api/v1/parse" \
+  -H "Authorization: Bearer pk_live_your_api_key" \
+  -F "files=@document.pdf" \
+  -F "files=@image.jpg"
+```
+
+```javascript JavaScript
+const formData = new FormData();
+formData.append('files', fileInput.files[0]);
+formData.append('files', fileInput.files[1]);
+
+const response = await fetch('https://your-api-domain.com/api/v1/parse', {
+  method: 'POST',
+  headers: {
+    'Authorization': 'Bearer pk_live_your_api_key'
+  },
+  body: formData
+});
+
+const data = await response.json();
+```
+
+```python Python
+import requests
+
+url = "https://your-api-domain.com/api/v1/parse"
+headers = {
+    "Authorization": "Bearer pk_live_your_api_key"
+}
+
+files = [
+    ("files", ("document.pdf", open("document.pdf", "rb"), "application/pdf")),
+    ("files", ("image.jpg", open("image.jpg", "rb"), "image/jpeg"))
+]
+
+response = requests.post(url, headers=headers, files=files)
+result = response.json()
+```
+
+</CodeGroup>
+
+## Response
+
+<ResponseField name="success" type="boolean">
+  Indicates if the request was successful.
+</ResponseField>
+
+<ResponseField name="message" type="string">
+  Human-readable message describing the result.
+</ResponseField>
+
+<ResponseField name="file_count" type="integer">
+  Number of files successfully parsed.
+</ResponseField>
+
+<ResponseField name="text_list" type="string[]">
+  Array of extracted text content, one entry per file. For PDFs, the text is returned as JSON with page-by-page structure including headings and tables.
+</ResponseField>
+
+## Response Example
+
+### For Images
+
+```json
+{
+  "success": true,
+  "message": "Files received successfully",
+  "file_count": 2,
+  "text_list": [
+    "This is the extracted text from the first image.\nLine 2 of text.",
+    "This is the extracted text from the second image."
+  ]
+}
+```
+
+### For PDFs
+
+```json
+{
+  "success": true,
+  "message": "Files received successfully",
+  "file_count": 1,
+  "text_list": [
+    "{\n  \"pages\": [\n    {\n      \"page_number\": 1,\n      \"text\": \"Full page text content here...\",\n      \"headings\": [\"Introduction\", \"Main Content\"],\n      \"tables\": [\n        {\n          \"caption\": \"Data Table\",\n          \"rows\": [[\"Header1\", \"Header2\"], [\"Value1\", \"Value2\"]]\n        }\n      ]\n    }\n  ]\n}"
+  ]
+}
+```
+
+## Error Responses
+
+<ResponseField name="detail" type="string">
+  Error message describing what went wrong.
+</ResponseField>
+
+### Common Errors
+
+**400 Bad Request**
+```json
+{
+  "detail": "No files provided"
+}
+```
+
+```json
+{
+  "detail": "Unsupported file type: application/zip"
+}
+```
+
+**401 Unauthorized**
+```json
+{
+  "detail": "Invalid API key"
+}
+```
+
+**402 Payment Required**
+```json
+{
+  "detail": "Insufficient credits. Required: 3, Available: 1"
+}
+```
+
+**403 Forbidden**
+```json
+{
+  "detail": "No active subscription found. Please subscribe to use this feature."
+}
+```
+
+## Credit Costs
+
+- Credits are calculated based on file size and type
+- PDFs: Credits estimated based on file size
+- Images: Credits based on image dimensions and file size
+- Total cost is the sum of credits for all files
+
+## Notes
+
+- Multiple files can be processed in a single request
+- Each file is processed independently
+- PDF responses include structured data with page numbers, headings, and tables
+- Image responses return plain text extracted via OCR
+- Text extraction preserves line breaks where possible
