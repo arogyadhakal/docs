@@ -46,5 +46,12 @@
      "cursor",
      "vscode"
    ]
-  }
+  },
+  "redirects": [
+    {
+      "source": "/",
+      "destination": "/api-reference/introduction",
+      "permanent": true
+    }
+  ]
 }
