@@ -8,22 +8,29 @@
     "dark": "#15803D"
   },
   "favicon": "/favicon.svg",
-  "navigation": [
-    {
-      "group": "API documentation",
-      "pages": [
-        "api-reference/introduction"
-      ]
-    },
-    {
-      "group": "API Endpoints",
-      "pages": [
-        "api-reference/endpoint/ask",
-        "api-reference/endpoint/parse",
-        "api-reference/endpoint/extract"
-      ]
-    }
-  ],
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "API Reference",
+        "groups": [
+          {
+            "group": "API documentation",
+            "pages": [
+              "api-reference/introduction"
+            ]
+          },
+          {
+            "group": "API Endpoints",
+            "pages": [
+              "api-reference/endpoint/ask",
+              "api-reference/endpoint/parse",
+              "api-reference/endpoint/extract"
+            ]
+          }
+        ]
+      }
+    ]
+  },
   "logo": {
     "light": "/logo/light.svg",
     "dark": "/logo/dark.svg"
