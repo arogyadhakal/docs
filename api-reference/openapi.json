@@ -10,7 +10,7 @@
   },
   "servers": [
     {
-      "url": "https://your-api-domain.com"
+      "url": "https://api.pdfextractor.io"
     }
   ],
   "security": [

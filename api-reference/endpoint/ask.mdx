@@ -28,7 +28,7 @@ Ask questions about uploaded PDFs and images using AI. The endpoint processes yo
 <CodeGroup>
 
 ```bash cURL
-curl -X POST "https://your-api-domain.com/api/v1/ask" \
+curl -X POST "https://api.pdfextractor.io/api/v1/ask" \
   -H "Authorization: Bearer pk_live_your_api_key" \
   -H "Idempotency-Key: unique-request-id-123" \
   -F "files=@document.pdf" \
@@ -41,7 +41,7 @@ const formData = new FormData();
 formData.append('files', fileInput.files[0]);
 formData.append('prompt', 'What is the main topic of this document?');
 
-const response = await fetch('https://your-api-domain.com/api/v1/ask', {
+const response = await fetch('https://api.pdfextractor.io/api/v1/ask', {
   method: 'POST',
   headers: {
     'Authorization': 'Bearer pk_live_your_api_key',
@@ -56,7 +56,7 @@ const data = await response.json();
 ```python Python
 import requests
 
-url = "https://your-api-domain.com/api/v1/ask"
+url = "https://api.pdfextractor.io/api/v1/ask"
 headers = {
     "Authorization": "Bearer pk_live_your_api_key",
     "Idempotency-Key": "unique-request-id-123"
